@@ -8,14 +8,14 @@ var countries = {
 }
 
 function getSearchParameters() {
-      var prmstr = window.location.search.substr(1);
-      return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+    var prmstr = window.location.search.substr(1);
+    return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
 }
 
-function transformToAssocArray( prmstr ) {
+function transformToAssocArray(prmstr) {
     var params = {};
     var prmarr = prmstr.split("&");
-    for ( var i = 0; i < prmarr.length; i++) {
+    for (var i = 0; i < prmarr.length; i++) {
         var tmparr = prmarr[i].split("=");
         params[tmparr[0]] = decodeURIComponent(tmparr[1]);
     }
@@ -33,12 +33,12 @@ function performSearch() {
     };
 
     var country = ($('#country').val()) ? $('#country').val() : 'jp';
-    
+
     $.ajax({
         type: "GET",
         crossDomain: true,
         url: 'https://itunes.apple.com/search?',
-        data: {term: query, country: country, media: "music", entity: "album"},
+        data: { term: query, country: country, media: "music", entity: "album" },
         dataType: 'jsonp',
         success: function (data) {
             $('#results').html('');
@@ -57,12 +57,12 @@ function performSearch() {
                     var img_max = result.artworkUrl100.replace("100x100bb.jpg", "10000x10000bb.jpg");
 
                     var html = '<div class="col-md-4 col-sm-6 item"> <div class="thumbnail product-item">';
-                    html += '<a href="'+img_500+'" target="_blank"><img src="'+img_300+'" alt="product"></a>';
-                    html += '<div class="caption"><a href="'+result.collectionViewUrl+'" target="_blank" class="product-title" title="'+result.collectionName+' - '+result.artistName+'">'+(result.collectionName+' - '+result.artistName)+'</a>';
-                    html += '<p>Download: <a href="'+img_500+'" download="'+result.artistName+' - '+result.collectionName+'_500"> 500 </a>'+
-                    '<a href="'+img_800+'" download="'+result.artistName+' - '+result.collectionName+'_8800"> 800 </a>'+
-                    '<a href="'+img_1000+'" download="'+result.artistName+' - '+result.collectionName+'_1000"> 1000 </a>'+
-                    '<a href="'+img_max+'" download="'+result.artistName+' - '+result.collectionName+'_MAX"> MAX </a></p>';
+                    html += '<a href="' + img_500 + '" target="_blank"><img src="' + img_300 + '" alt="product"></a>';
+                    html += '<div class="caption"><a href="' + result.collectionViewUrl + '" target="_blank" class="product-title" title="' + result.collectionName + ' - ' + result.artistName + '">' + (result.collectionName + ' - ' + result.artistName) + '</a>';
+                    html += '<p>Download: <a href="' + img_500 + '" download="' + result.artistName + ' - ' + result.collectionName + '_500"> 500 </a>' +
+                        '<a href="' + img_800 + '" download="' + result.artistName + ' - ' + result.collectionName + '_8800"> 800 </a>' +
+                        '<a href="' + img_1000 + '" download="' + result.artistName + ' - ' + result.collectionName + '_1000"> 1000 </a>' +
+                        '<a href="' + img_max + '" download="' + result.artistName + ' - ' + result.collectionName + '_MAX"> MAX </a></p>';
                     html += '</div> </div> </div>'
 
                     $('#results').append(html).masonry('reloadItems').masonry('layout');
@@ -77,7 +77,7 @@ function performSearch() {
 
 function flow() {
     var $container = $('.masonry-container');
-    $container.imagesLoaded( function () {
+    $container.imagesLoaded(function () {
         $container.masonry({
             columnWidth: '.item',
             itemSelector: '.item'
@@ -85,22 +85,22 @@ function flow() {
     });
 }
 
-$(document).ready(function() {	
+$(document).ready(function () {
 
-	var sortable = [];
-	for (var key in countries) {
-		sortable.push([key, countries[key]]);	
-	}
-    sortable.sort(function(a, b) {
-    	/*if(a[1] < b[1]) return 1;
-	    if(a[1] > b[1]) return -1;*/
-	    return 1;
+    var sortable = [];
+    for (var key in countries) {
+        sortable.push([key, countries[key]]);
+    }
+    sortable.sort(function (a, b) {
+        /*if(a[1] < b[1]) return 1;
+        if(a[1] > b[1]) return -1;*/
+        return 1;
     });
-	
-	for (var i = sortable.length - 1; i >= 0; i--) {
-		var array = sortable[i];
-		$('#country').append('<option value="'+array[0]+'">'+array[1]+'</option>');
-	};
+
+    for (var i = sortable.length - 1; i >= 0; i--) {
+        var array = sortable[i];
+        $('#country').append('<option value="' + array[0] + '">' + array[1] + '</option>');
+    };
 
     var params = getSearchParameters();
     if (params.key && params.country) {
@@ -109,9 +109,9 @@ $(document).ready(function() {
         performSearch();
     };
 
-	$('#iTunesSearch').submit(function() {
-		performSearch();
-		return false;
-	});
+    $('#iTunesSearch').submit(function () {
+        performSearch();
+        return false;
+    });
 
 });
