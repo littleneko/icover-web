@@ -6,6 +6,8 @@ const countries = {
     tw: 'TW',
 }
 
+const default_country = 'jp';
+
 function getSearchParameters() {
     var prmstr = window.location.search.substring(1);
     return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
@@ -30,9 +32,11 @@ function performSearch() {
         return false;
     };
 
-    var country = ($('#country').val()) ? $('#country').val() : 'jp';
+    var country = ($('#country').val()) ? $('#country').val() : default_country;
 
-    var uncomp_country = country == 'jp' || country == 'us' ? country : 'jp';
+    window.history.pushState("", "", "?country=" + country + "&key=" + query);
+
+    var uncomp_country = country == 'jp' || country == 'us' ? country : default_country;
     var uncomp_url_prefix = "https://a5.mzstatic.com/" + uncomp_country + "/r1000/0/";
 
     function getUncompressedUrl(url100) {
@@ -122,9 +126,9 @@ $(document).ready(function () {
     if (params.key) {
         $('#key').val(params.key);
         if (params.country) {
-            $('#country').val(params.country);
+            $('#country').val(params.country.toLowerCase());
         } else {
-            $('#country').val('JP');
+            $('#country').val(default_country);
         }
         performSearch();
     };
