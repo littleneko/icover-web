@@ -123,6 +123,8 @@ $(document).ready(function () {
         $('#key').val(params.key);
         if (params.country) {
             $('#country').val(params.country);
+        } else {
+            $('#country').val('JP');
         }
         performSearch();
     };
